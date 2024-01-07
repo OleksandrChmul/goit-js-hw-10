@@ -4,6 +4,7 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 let userSelectedDate;
+const startButton = document.getElementById('startButton');
 
 const options = {
   enableTime: true,
@@ -18,9 +19,9 @@ const options = {
         title: 'Error',
         message: 'Please choose a date in the future',
       });
-      document.getElementById('startButton').disabled = true;
+      startButton.disabled = true;
     } else {
-      document.getElementById('startButton').disabled = false;
+      startButton.disabled = false;
     }
   },
 };
@@ -54,7 +55,7 @@ function updateTimerDisplay(ms) {
   document.getElementById('seconds').textContent = addLeadingZero(seconds);
 }
 
-document.getElementById('startButton').addEventListener('click', () => {
+startButton.addEventListener('click', () => {
   const currentTime = new Date().getTime();
   const timeDifference = userSelectedDate - currentTime;
 
@@ -63,9 +64,9 @@ document.getElementById('startButton').addEventListener('click', () => {
       title: 'Error',
       message: 'Please choose a date in the future',
     });
-    document.getElementById('startButton').disabled = true;
+    startButton.disabled = true;
   } else {
-    document.getElementById('startButton').disabled = true;
+    startButton.disabled = true;
     updateTimerDisplay(timeDifference);
 
     const timerInterval = setInterval(() => {
