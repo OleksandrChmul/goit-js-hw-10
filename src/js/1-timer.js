@@ -5,6 +5,7 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 let userSelectedDate;
 const startButton = document.getElementById('startButton');
+let timeDifference;
 
 const options = {
   enableTime: true,
@@ -57,7 +58,7 @@ function updateTimerDisplay(ms) {
 
 startButton.addEventListener('click', () => {
   const currentTime = new Date().getTime();
-  const timeDifference = userSelectedDate - currentTime;
+  timeDifference = userSelectedDate - currentTime; // Визначення timeDifference перед використанням
 
   if (timeDifference <= 0) {
     iziToast.error({
