@@ -4,8 +4,11 @@ import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
 let userSelectedDate;
+let timeDifference; // Визначено тут, щоб було доступно всередині функцій
 const startButton = document.getElementById('startButton');
-let timeDifference;
+
+// Додано рядок, щоб кнопка була неактивною з початку
+startButton.disabled = true;
 
 const options = {
   enableTime: true,
@@ -48,6 +51,14 @@ function convertMs(ms) {
 }
 
 function updateTimerDisplay(ms) {
+  if (ms <= 0) {
+    document.getElementById('days').textContent = '00';
+    document.getElementById('hours').textContent = '00';
+    document.getElementById('minutes').textContent = '00';
+    document.getElementById('seconds').textContent = '00';
+    return;
+  }
+
   const { days, hours, minutes, seconds } = convertMs(ms);
 
   document.getElementById('days').textContent = addLeadingZero(days);
@@ -58,7 +69,7 @@ function updateTimerDisplay(ms) {
 
 startButton.addEventListener('click', () => {
   const currentTime = new Date().getTime();
-  timeDifference = userSelectedDate - currentTime; // Визначення timeDifference перед використанням
+  timeDifference = userSelectedDate.getTime() - currentTime;
 
   if (timeDifference <= 0) {
     iziToast.error({
@@ -76,6 +87,7 @@ startButton.addEventListener('click', () => {
         updateTimerDisplay(timeDifference);
       } else {
         clearInterval(timerInterval);
+        startButton.disabled = false;
         iziToast.success({
           title: 'Countdown Finished',
           message: 'The countdown has reached zero!',
